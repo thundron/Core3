@@ -4,18 +4,31 @@ frsEnabled = 1
 lightEnclaveID = 8525417
 darkEnclaveID = 3435626
 
-petitionInterval = 86400000 -- 1 day
-votingInterval = 86400000 -- 1 day
-acceptanceInterval = 86400000 -- 1 day
-maintenanceInterval = 86400000 -- 1 day
+-- petitionInterval = 86400000 -- 1 day
+-- votingInterval = 86400000 -- 1 day
+-- acceptanceInterval = 86400000 -- 1 day
+-- maintenanceInterval = 86400000 -- 1 day
 
-requestDemotionDuration = 604800000 -- 7 days
-voteChallengeDuration = 604800000 -- 7 days
+-- requestDemotionDuration = 604800000 -- 7 days
+-- voteChallengeDuration = 604800000 -- 7 days
 
-arenaOpenInterval = 5400000 -- 90 mins
-arenaClosedInterval = 108000000 -- 30 hours
-arenaChallengeDuration = 3600000 -- 60 mins
-arenaChallengeCooldown = 90000000 -- 25 hours
+-- arenaOpenInterval = 5400000 -- 90 mins
+-- arenaClosedInterval = 108000000 -- 30 hours
+-- arenaChallengeDuration = 3600000 -- 60 mins
+-- arenaChallengeCooldown = 90000000 -- 25 hours
+
+petitionInterval = 10 -- 1 day
+votingInterval = 10 -- 1 day
+acceptanceInterval = 10 -- 1 day
+maintenanceInterval = 864000008640000086400000 -- 1 day
+
+requestDemotionDuration = 10 -- 7 days
+voteChallengeDuration = 10 -- 7 days
+
+arenaOpenInterval = 10 -- 90 mins
+arenaClosedInterval = 10 -- 30 hours
+arenaChallengeDuration = 10 -- 60 mins
+arenaChallengeCooldown = 10 -- 25 hours
 
 -- Costs are in FRS experience
 baseMaintCost = 100
@@ -27,7 +40,7 @@ maxChallenges = 20
 missedVotePenalty = 100 -- FRS XP
 
 -- Restrict players from voting for and challenging other characters on their account
-sameAccountEnclaveRestrictions = 1
+sameAccountEnclaveRestrictions = 0
 
 -- { rank, skillName, requiredExperience, playerCap, robe }
 lightRankingData = {
