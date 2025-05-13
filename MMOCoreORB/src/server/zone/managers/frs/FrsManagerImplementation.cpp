@@ -49,10 +49,10 @@ void FrsManagerImplementation::initialize() {
 
 	rankMaintenanceTask = new RankMaintenanceTask(_this.getReferenceUnsafeStaticCast());
 
-	if (miliDiff >= maintenanceInterval)
-		rankMaintenanceTask->execute();
-	else
-		rankMaintenanceTask->schedule(maintenanceInterval - miliDiff);
+	// if (miliDiff >= maintenanceInterval)
+	// 	rankMaintenanceTask->execute();
+	// else
+	// 	rankMaintenanceTask->schedule(maintenanceInterval - miliDiff);
 
 	lastTick = managerData->getLastVoteStatusTick();
 	miliDiff = Time().getMiliTime() - lastTick;
@@ -874,14 +874,14 @@ void FrsManagerImplementation::adjustFrsExperience(CreatureObject* player, int a
 		sendSystemMessage = false;
 
 	if (amount > 0) {
-		if (ghost->hasCappedExperience("force_rank_xp")) {
-			if (sendSystemMessage) {
-				StringIdChatParameter message("base_player", "prose_hit_xp_cap"); //You have achieved your current limit for %TO experience.
-				message.setTO("exp_n", "force_rank_xp");
-				player->sendSystemMessage(message);
-			}
-			return;
-		}
+		// if (ghost->hasCappedExperience("force_rank_xp")) {
+		// 	if (sendSystemMessage) {
+		// 		StringIdChatParameter message("base_player", "prose_hit_xp_cap"); //You have achieved your current limit for %TO experience.
+		// 		message.setTO("exp_n", "force_rank_xp");
+		// 		player->sendSystemMessage(message);
+		// 	}
+		// 	return;
+		// }
 
 		TransactionLog trx(TrxCode::EXPERIENCE, player);
 		ghost->addExperience(trx, "force_rank_xp", amount, true);
@@ -892,46 +892,46 @@ void FrsManagerImplementation::adjustFrsExperience(CreatureObject* player, int a
 			player->sendSystemMessage(param);
 		}
 	} else {
-		FrsData* playerData = ghost->getFrsData();
-		int rank = playerData->getRank();
-		int councilType = playerData->getCouncilType();
+		// FrsData* playerData = ghost->getFrsData();
+		// int rank = playerData->getRank();
+		// int councilType = playerData->getCouncilType();
 
-		int curExperience = ghost->getExperience("force_rank_xp");
+		// int curExperience = ghost->getExperience("force_rank_xp");
 
-		// Ensure we dont go into the negatives
-		if ((amount * -1) > curExperience)
-			amount = curExperience * -1;
+		// // Ensure we dont go into the negatives
+		// if ((amount * -1) > curExperience)
+		// 	amount = curExperience * -1;
 
-		TransactionLog trx(TrxCode::EXPERIENCE, player);
-		ghost->addExperience(trx, "force_rank_xp", amount, true);
+		// TransactionLog trx(TrxCode::EXPERIENCE, player);
+		// ghost->addExperience(trx, "force_rank_xp", amount, true);
 
-		if (sendSystemMessage) {
-			StringIdChatParameter param("@force_rank:experience_lost"); // You have lost %DI Force Rank experience.
-			param.setDI(amount * -1);
-			player->sendSystemMessage(param);
-		}
+		// if (sendSystemMessage) {
+		// 	StringIdChatParameter param("@force_rank:experience_lost"); // You have lost %DI Force Rank experience.
+		// 	param.setDI(amount * -1);
+		// 	player->sendSystemMessage(param);
+		// }
 
-		curExperience += amount;
+		// curExperience += amount;
 
-		Reference<FrsRankingData*> rankingData = nullptr;
+		// Reference<FrsRankingData*> rankingData = nullptr;
 
-		if (councilType == COUNCIL_LIGHT)
-			rankingData = lightRankingData.get(rank);
-		else if (councilType == COUNCIL_DARK)
-			rankingData = darkRankingData.get(rank);
+		// if (councilType == COUNCIL_LIGHT)
+		// 	rankingData = lightRankingData.get(rank);
+		// else if (councilType == COUNCIL_DARK)
+		// 	rankingData = darkRankingData.get(rank);
 
-		if (rankingData == nullptr)
-			return;
+		// if (rankingData == nullptr)
+		// 	return;
 
-		int reqXp = rankingData->getRequiredExperience();
+		// int reqXp = rankingData->getRequiredExperience();
 
-		if (reqXp > curExperience) {
-			auto zoneServer = this->zoneServer.get();
-			ChatManager* chatManager = zoneServer->getChatManager();
+		// if (reqXp > curExperience) {
+		// 	auto zoneServer = this->zoneServer.get();
+		// 	ChatManager* chatManager = zoneServer->getChatManager();
 
-			chatManager->sendMail("Enclave Records", "@force_rank:demote_xp_debt_sub", "@force_rank:demote_xp_debt_body", player->getFirstName());
-			demotePlayer(player);
-		}
+		// 	chatManager->sendMail("Enclave Records", "@force_rank:demote_xp_debt_sub", "@force_rank:demote_xp_debt_body", player->getFirstName());
+		// 	demotePlayer(player);
+		// }
 	}
 }
 
@@ -1529,10 +1529,10 @@ void FrsManagerImplementation::handleVoteRecordSui(CreatureObject* player, Scene
 	if (petitionerGhost == nullptr)
 		return;
 
-	if (sameAccountEnclaveRestrictions && ghost->getAccountID() == petitionerGhost->getAccountID() && playerID != petitionerID) {
-		player->sendSystemMessage("You cannot vote for other characters on your account.");
-		return;
-	}
+	// if (sameAccountEnclaveRestrictions && ghost->getAccountID() == petitionerGhost->getAccountID() && playerID != petitionerID) {
+	// 	player->sendSystemMessage("You cannot vote for other characters on your account.");
+	// 	return;
+	// }
 
 	VectorMap<uint64, int>* petitionerList = rankData->getPetitionerList();
 	int curVotes = petitionerList->get(petitionerID);
