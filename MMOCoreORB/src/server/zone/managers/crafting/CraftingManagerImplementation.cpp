@@ -50,7 +50,9 @@ int CraftingManagerImplementation::calculateExperimentationFailureRate(CreatureO
 	String expSkill = manufactureSchematic->getDraftSchematic()->getExperimentationSkill();
 	float expPoints = player->getSkillMod(expSkill) / 10.0f;
 
-	int failure = int((50.0f + (ma - 500.0f) / 40.0f + expPoints - 5.0f * float(pointsUsed)));
+	// int failure = int((50.0f + (ma - 500.0f) / 40.0f + expPoints - 5.0f * float(pointsUsed)));
+
+	int failure = 0;
 
 	return failure;
 }
