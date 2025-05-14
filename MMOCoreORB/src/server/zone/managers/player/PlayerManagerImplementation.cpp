@@ -1875,22 +1875,22 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 
 
 	// Jedi experience loss.
-	if (ghost->getJediState() >= 2) {
-		int jediXpCap = ghost->getXpCap("jedi_general");
-		int xpLoss = (int)(jediXpCap * -0.05);
-		int curExp = ghost->getExperience("jedi_general");
+	// if (ghost->getJediState() >= 2) {
+	// 	int jediXpCap = ghost->getXpCap("jedi_general");
+	// 	int xpLoss = (int)(jediXpCap * -0.05);
+	// 	int curExp = ghost->getExperience("jedi_general");
 
-		int negXpCap = -10000000; // Cap on negative jedi experience
+	// 	int negXpCap = -10000000; // Cap on negative jedi experience
 
-		if ((curExp + xpLoss) < negXpCap)
-			xpLoss = negXpCap - curExp;
+	// 	if ((curExp + xpLoss) < negXpCap)
+	// 		xpLoss = negXpCap - curExp;
 
-		awardExperience(player, "jedi_general", xpLoss, true);
-		StringIdChatParameter message("base_player","prose_revoke_xp");
-		message.setDI(xpLoss * -1);
-		message.setTO("exp_n", "jedi_general");
-		player->sendSystemMessage(message);
-	}
+	// 	awardExperience(player, "jedi_general", xpLoss, true);
+	// 	StringIdChatParameter message("base_player","prose_revoke_xp");
+	// 	message.setDI(xpLoss * -1);
+	// 	message.setTO("exp_n", "jedi_general");
+	// 	player->sendSystemMessage(message);
+	// }
 }
 
 void PlayerManagerImplementation::ejectPlayerFromBuilding(CreatureObject* player) {
@@ -2155,7 +2155,8 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 				if (xpType != "jedi_general")
 					combatXp += xpAmount;
 				else
-					xpAmount *= 0.2f;
+					// xpAmount *= 0.2f;
+					xpAmount *= 1.2f;
 
 				if (xpType == "dotDMG") { // Prevents XP generated from DoTs from applying to the equiped weapon, but still counts towards combat XP
 					continue;
@@ -2163,10 +2164,10 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 
 				//Award individual expType
 				awardExperience(attackerCreo, xpType, xpAmount);
+				awardExperience(attackerCreo, "force_rank_xp", xpAmount, true);
 			}
 
 			awardExperience(attackerCreo, "combat_general", combatXp, true, 0.1f);
-
 
 			//Check if the group leader is a squad leader
 			if (group == nullptr)
@@ -5931,7 +5932,8 @@ void PlayerManagerImplementation::claimVeteranRewards(CreatureObject* player) {
 	player->sendSystemMessage(timeActiveMsg );
 
 	// Verify player is eligible for a reward
-	int milestone = getEligibleMilestone(ghost, account);
+	// int milestone = getEligibleMilestone(ghost, account);
+	int milestone = 1080;
 
 	if (milestone < 0) {
 		player->sendSystemMessage("@veteran:not_eligible"); // You are not currently eligible for a veteran reward.
