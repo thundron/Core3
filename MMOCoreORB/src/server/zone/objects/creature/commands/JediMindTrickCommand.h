@@ -23,8 +23,9 @@ public:
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		if (isWearingArmor(creature))
-			return NOJEDIARMOR;
+		if (isWearingArmor(creature)) {
+			// return NOJEDIARMOR;
+		}
 
 		ZoneServer* zoneServer = creature->getZoneServer();
 

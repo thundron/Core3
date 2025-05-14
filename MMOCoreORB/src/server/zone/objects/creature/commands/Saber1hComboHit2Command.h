@@ -24,7 +24,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (isWearingArmor(creature)) {
-			return NOJEDIARMOR;
+			// return NOJEDIARMOR;
 		}
 
 		float mods[3] = {0.f, 0.f, 0.f};

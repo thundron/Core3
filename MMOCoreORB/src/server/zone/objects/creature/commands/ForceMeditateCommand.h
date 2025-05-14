@@ -27,9 +27,9 @@ public:
 			return GENERALERROR;
 
 		if (isWearingArmor(creature)) {
-			return NOJEDIARMOR;
+			// return NOJEDIARMOR;
 		}
-		
+
 		if (creature->isInCombat()) {
 			creature->sendSystemMessage("@jedi_spam:not_while_in_combat");
 			return GENERALERROR;
@@ -46,7 +46,7 @@ public:
 
 		// Force Meditate Task
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
-		
+
 		creature->sendSystemMessage("@teraskasi:med_begin");
 		Reference<ForceMeditateTask*> fmeditateTask = new ForceMeditateTask(creature);
 		fmeditateTask->setMoodString(creature->getMoodString());
@@ -54,7 +54,7 @@ public:
 
 		creature->setMeditateState();
 
-		PlayerManager* playermgr = server->getZoneServer()->getPlayerManager();	
+		PlayerManager* playermgr = server->getZoneServer()->getPlayerManager();
 		creature->registerObserver(ObserverEventType::POSTURECHANGED, playermgr);
 
 		return SUCCESS;

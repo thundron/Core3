@@ -22,7 +22,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (isWearingArmor(creature)) {
-			return NOJEDIARMOR;
+			// return NOJEDIARMOR;
 		}
 
 		// Bonus is in between 250-350.
