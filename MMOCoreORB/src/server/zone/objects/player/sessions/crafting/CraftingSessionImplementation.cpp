@@ -751,18 +751,22 @@ void CraftingSessionImplementation::initialAssembly(int clientCounter) {
 	manufactureSchematic->setCrafter(crafter);
 
 	String expskill = draftSchematic->getExperimentationSkill();
-	experimentationPointsTotal = int(crafter->getSkillMod(expskill) / 10);
+	// experimentationPointsTotal = int(crafter->getSkillMod(expskill) / 10);
+	experimentationPointsTotal = 300;
 	experimentationPointsUsed = 0;
 
 	// Calculate exp failure for red bars
-	int experimentalFailureRate = craftingManager->calculateExperimentationFailureRate(crafter, manufactureSchematic, 0);
+	// int experimentalFailureRate = craftingManager->calculateExperimentationFailureRate(crafter, manufactureSchematic, 0);
+	int experimentalFailureRate = 0;
 
 	// Get the level of customization
 	String custskill = draftSchematic->getCustomizationSkill();
 	int custpoints = int(crafter->getSkillMod(custskill));
 
 	// Determine the outcome of the craft, Amazing through Critical
-	assemblyResult = craftingManager->calculateAssemblySuccess(crafter, draftSchematic, craftingTool->getEffectiveness());
+	// assemblyResult = craftingManager->calculateAssemblySuccess(crafter, draftSchematic, craftingTool->getEffectiveness());
+	assemblyResult = CraftingManager::AMAZINGSUCCESS;
+	craftingTool->setForceCriticalAssembly(501);
 
 	if (assemblyResult != CraftingManager::AMAZINGSUCCESS && craftingTool->getForceCriticalAssembly() > 0) {
 		assemblyResult = CraftingManager::AMAZINGSUCCESS;
@@ -1093,7 +1097,9 @@ void CraftingSessionImplementation::experiment(int rowsAttempted, const String& 
 
 		if (experimentationPointsUsed <= experimentationPointsTotal) {
 			// Set the experimentation result ie:  Amazing Success
-			experimentationResult = craftingManager->calculateExperimentationSuccess(crafter, manufactureSchematic->getDraftSchematic(), failure);
+			// experimentationResult = craftingManager->calculateExperimentationSuccess(crafter, manufactureSchematic->getDraftSchematic(), failure);
+			experimentationResult = CraftingManager::AMAZINGSUCCESS;
+			craftingTool->setForceCriticalExperiment(501);
 
 			if (experimentationResult != CraftingManager::AMAZINGSUCCESS && craftingTool->getForceCriticalExperiment() > 0) {
 				// We are going to mutute the tool, lock it
