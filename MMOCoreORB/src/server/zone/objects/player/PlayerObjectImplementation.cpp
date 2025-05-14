@@ -749,21 +749,21 @@ int PlayerObjectImplementation::addExperience(TransactionLog& trx, const String&
 		}
 	}
 
-	int xpCap = -1;
+	// int xpCap = -1;
 
-	if (xpTypeCapList.contains(xpType))
-		xpCap = xpTypeCapList.get(xpType);
+	// if (xpTypeCapList.contains(xpType))
+	// 	xpCap = xpTypeCapList.get(xpType);
 
-	if (xpType.beginsWith("prestige_")) {
-		xpCap = INT_MAX;
-	} else if (xpCap < 0) {
-		xpCap = 2000;
-	}
+	// if (xpType.beginsWith("prestige_")) {
+	// 	xpCap = INT_MAX;
+	// } else if (xpCap < 0) {
+	// 	xpCap = 2000;
+	// }
 
-	if (xp > xpCap) {
-		valueToAdd = xpCap - (xp - valueToAdd);
-		xp = xpCap;
-	}
+	// if (xp > xpCap) {
+	// 	valueToAdd = xpCap - (xp - valueToAdd);
+	// 	xp = xpCap;
+	// }
 
 	if (notifyClient) {
 		PlayerObjectDeltaMessage8* dplay8 = new PlayerObjectDeltaMessage8(this);
