@@ -860,10 +860,13 @@ bool SkillManager::canLearnSkill(const String& skillName, CreatureObject* creatu
 			}
 		}
 
-		//Check if player has enough skill points to learn the skill.
-		if (ghost->getSkillPoints() < skill->getSkillPointsRequired()) {
-			return false;
-		}
+		// bypass skill point requirement
+		return true;
+
+		// //Check if player has enough skill points to learn the skill.
+		// if (ghost->getSkillPoints() < skill->getSkillPointsRequired()) {
+		// 	return false;
+		// }
 	} else {
 		//Could not retrieve player object.
 		return false;
