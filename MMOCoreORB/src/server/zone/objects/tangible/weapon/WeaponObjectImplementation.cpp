@@ -92,6 +92,9 @@ void WeaponObjectImplementation::loadTemplateData(SharedObjectTemplate* template
 	if (templateAttackSpeed > 1)
 		attackSpeed = templateAttackSpeed;
 
+	// for searching: slice lightsaber slicing
+	// setSliceable(true);
+
 	if (!isJediWeapon()) {
 		setSliceable(true);
 	} else if (isJediWeapon()) {
