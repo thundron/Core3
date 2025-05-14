@@ -359,7 +359,7 @@ TangibleObject* LootManagerImplementation::createLootObject(TransactionLog& trx,
 #endif
 
 	const String& directTemplateObject = templateObject->getDirectObjectTemplate();
-	level = Math::clamp((int)LEVELMIN, level, (int)LEVELMAX);
+	level = Math::clamp((int)LEVELMIN, level, 500);
 
 	trx.addState("lootVersion", 2);
 	trx.addState("lootTemplate", directTemplateObject);
@@ -401,11 +401,13 @@ TangibleObject* LootManagerImplementation::createLootObject(TransactionLog& trx,
 	float chance = LootValues::getLevelRankValue(Math::max(level - 50, 0), 0.f, 0.35f) * levelChance;
 	float excMod = baseModifier;
 
-	if (System::random(legendaryChance) <= chance) {
-		excMod = legendaryModifier;
-	} else if (System::random(exceptionalChance) <= chance) {
-		excMod = exceptionalModifier;
-	}
+	// if (System::random(legendaryChance) <= chance) {
+	// 	excMod = legendaryModifier;
+	// } else if (System::random(exceptionalChance) <= chance) {
+	// 	excMod = exceptionalModifier;
+	// }
+
+	excMod = legendaryModifier;
 
 #ifdef DEBUG_LOOT_MAN
 	info(true) << "Exceptional Modifier (excMod) = " << excMod << "  chance = " << chance;
@@ -1086,6 +1088,8 @@ float LootManagerImplementation::getRandomModifier(const LootItemTemplate* itemT
 		modMax = baseModifier;
 		modMin = 0.f;
 	}
+
+	info(true) << "LOOT SPAWNED LEVEL (level)" << level << ", (modMin, modMax): (" << modMin << ", " << modMax << ")";
 
 	return modMax == modMin ? modMin : LootValues::getDistributedValue(modMin, modMax, level) + baseModifier;
 }
