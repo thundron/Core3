@@ -244,7 +244,8 @@ function RecruiterConvoHandler:getInitialScreen(pPlayer, pNpc, pConvTemplate)
 
 	local covertOvert = useCovertOvert()
 
-	if (faction == recruiterScreenplay:getRecruiterEnemyFactionHashCode(pNpc)) then
+	-- if (faction == recruiterScreenplay:getRecruiterEnemyFactionHashCode(pNpc)) then
+	if (false) then
 		return convoTemplate:getScreen("greet_enemy")
 	elseif factionStanding < -200 and PlayerObject(pGhost):getFactionStanding(recruiterScreenplay:getRecruiterEnemyFaction(pNpc)) > 0 then
 		return convoTemplate:getScreen("greet_hated")

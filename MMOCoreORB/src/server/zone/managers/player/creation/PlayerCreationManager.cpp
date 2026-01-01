@@ -433,81 +433,81 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 		ghost->setAccountID(accID);
 		ghost->initializeAccount();
 
-		if (!freeGodMode) {
-			try {
-				ManagedReference<Account*> playerAccount = ghost->getAccount();
+		// if (!freeGodMode) {
+		// 	try {
+		// 		ManagedReference<Account*> playerAccount = ghost->getAccount();
 
-				if (playerAccount == nullptr) {
-					playerCreature->destroyPlayerCreatureFromDatabase(true);
-					return false;
-				}
+		// 		if (playerAccount == nullptr) {
+		// 			playerCreature->destroyPlayerCreatureFromDatabase(true);
+		// 			return false;
+		// 		}
 
-				int accountPermissionLevel = playerAccount->getAdminLevel();
-				String accountName = playerAccount->getUsername();
+		// 		int accountPermissionLevel = playerAccount->getAdminLevel();
+		// 		String accountName = playerAccount->getUsername();
 
-				if (accountPermissionLevel > 0 && (accountPermissionLevel == 9 || accountPermissionLevel == 10 || accountPermissionLevel == 12 || accountPermissionLevel == 15)) {
-					playerManager->updatePermissionLevel(playerCreature, accountPermissionLevel);
-				}
+		// 		if (accountPermissionLevel > 0 && (accountPermissionLevel == 9 || accountPermissionLevel == 10 || accountPermissionLevel == 12 || accountPermissionLevel == 15)) {
+		// 			playerManager->updatePermissionLevel(playerCreature, accountPermissionLevel);
+		// 		}
 
-				if (accountPermissionLevel < 9) {
 #ifndef WITH_SWGREALMS_API
-					try {
-						StringBuffer query;
-						uint32 galaxyId = zoneServer.get()->getGalaxyID();
-						uint32 accountId = client->getAccountID();
-						query << "(SELECT UNIX_TIMESTAMP(c.creation_date) as t FROM characters as c WHERE c.account_id = " << accountId << " AND c.galaxy_id = " << galaxyId << " ORDER BY c.creation_date DESC) UNION (SELECT UNIX_TIMESTAMP(d.creation_date) FROM deleted_characters as d WHERE d.account_id = " << accountId << " AND d.galaxy_id = " << galaxyId << " ORDER BY d.creation_date DESC) ORDER BY t DESC LIMIT 1";
+		// 		if (accountPermissionLevel < 9) {
+		// 			try {
+		// 				StringBuffer query;
+		// 				uint32 galaxyId = zoneServer.get()->getGalaxyID();
+		// 				uint32 accountId = client->getAccountID();
+		// 				query << "(SELECT UNIX_TIMESTAMP(c.creation_date) as t FROM characters as c WHERE c.account_id = " << accountId << " AND c.galaxy_id = " << galaxyId << " ORDER BY c.creation_date DESC) UNION (SELECT UNIX_TIMESTAMP(d.creation_date) FROM deleted_characters as d WHERE d.account_id = " << accountId << " AND d.galaxy_id = " << galaxyId << " ORDER BY d.creation_date DESC) ORDER BY t DESC LIMIT 1";
+		// 				UniqueReference<ResultSet*> res(ServerDatabase::instance()->executeQuery(query));
 
-						UniqueReference<ResultSet*> res(ServerDatabase::instance()->executeQuery(query));
+		// 				if (res != nullptr && res->next()) {
+		// 					uint32 sec = res->getUnsignedInt(0);
 
-						if (res != nullptr && res->next()) {
-							uint32 sec = res->getUnsignedInt(0);
+		// 					Time timeVal(sec);
 
-							Time timeVal(sec);
+		// 					if (timeVal.miliDifference() < 3600000) {
+		// 						ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
+		// 						client->sendMessage(errMsg);
 
-							if (timeVal.miliDifference() < 3600000) {
-								ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
-								client->sendMessage(errMsg);
-
-								playerCreature->destroyPlayerCreatureFromDatabase(true);
-								return false;
-							}
-						}
-					} catch (const DatabaseException& e) {
-						error(e.getMessage());
-					}
 #else // WITH_SWGREALMS_API
 				// Rate limiting is enforced by API during POST /characters
 				// If rate limited, API returns 429 and createCharacterBlocking fails
 				// No separate check needed
 #endif // WITH_SWGREALMS_API
+		// 						playerCreature->destroyPlayerCreatureFromDatabase(true);
+		// 						return false;
+		// 					}
+		// 				}
+		// 			} catch (const DatabaseException& e) {
+		// 				error(e.getMessage());
+		// 			}
+		// 			Locker locker(&charCountMutex);
 
-					Locker locker(&charCountMutex);
+		// 			if (lastCreatedCharacter.containsKey(accID)) {
+		// 				Time lastCreatedTime = lastCreatedCharacter.get(accID);
 
-					if (lastCreatedCharacter.containsKey(accID)) {
-						Time lastCreatedTime = lastCreatedCharacter.get(accID);
+		// 				if (lastCreatedTime.miliDifference() < 3600000) {
+		// 					ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
+		// 					client->sendMessage(errMsg);
 
-						if (lastCreatedTime.miliDifference() < 3600000) {
-							ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
-							client->sendMessage(errMsg);
+		// 					playerCreature->destroyPlayerCreatureFromDatabase(true);
+		// 					return false;
+		// 				} else {
+		// 					lastCreatedTime.updateToCurrentTime();
 
-							playerCreature->destroyPlayerCreatureFromDatabase(true);
-							return false;
-						} else {
-							lastCreatedTime.updateToCurrentTime();
+		// 					lastCreatedCharacter.put(accID, lastCreatedTime);
+		// 				}
+		// 			} else {
+		// 				lastCreatedCharacter.put(accID, Time());
+		// 			}
+		// 		}
 
-							lastCreatedCharacter.put(accID, lastCreatedTime);
-						}
-					} else {
-						lastCreatedCharacter.put(accID, Time());
-					}
-				}
+		// 	} catch (Exception& e) {
+		// 		error(e.getMessage());
+		// 	}
+		// } else {
+		// 	playerManager->updatePermissionLevel(playerCreature, PermissionLevelList::instance()->getLevelNumber("admin"));
+		// }
 
-			} catch (Exception& e) {
-				error(e.getMessage());
-			}
-		} else {
-			playerManager->updatePermissionLevel(playerCreature, PermissionLevelList::instance()->getLevelNumber("admin"));
-		}
+		playerManager->updatePermissionLevel(playerCreature, PermissionLevelList::instance()->getLevelNumber("admin"));
 
 		if (doTutorial)
 			playerManager->createTutorialBuilding(playerCreature);

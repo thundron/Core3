@@ -20,10 +20,12 @@ function trainerConvHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, sele
 	local screen = LuaConversationScreen(pConvScreen)
 	local screenID = screen:getScreenID()
 
-	local trainerType = SkillTrainer:getTrainerType(pPlayer, pNpc, pConvTemplate)
+	-- local trainerType = SkillTrainer:getTrainerType(pPlayer, pNpc, pConvTemplate)
 	local playerID = SceneObject(pPlayer):getObjectID()
 	local stringTable = "@skill_teacher:"
 	local isJediTrainer = false
+
+	local trainerType = "trainer_jedi"
 
 	if (trainerType == "trainer_jedi") then
 		isJediTrainer = true

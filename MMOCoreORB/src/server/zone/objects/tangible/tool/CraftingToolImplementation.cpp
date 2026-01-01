@@ -91,6 +91,7 @@ int CraftingToolImplementation::handleObjectMenuSelect(CreatureObject* player, b
 
 		// Check if the player has made space and attempt to transfer the prototype
 		if (totalLimit > totalObjects && inventory->transferObject(prototype, -1, true, true)) {
+		// if (totalLimit > totalObjects && multiplePrototype(inventory, prototype, 10)) {
 			player->sendSystemMessage("@system_msg:prototype_transferred");
 
 			status = TOOL_READY;
@@ -103,6 +104,17 @@ int CraftingToolImplementation::handleObjectMenuSelect(CreatureObject* player, b
 
 	return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
 }
+
+// bool multiplePrototype(SceneObject inventory, TangibleObject prototype, int times) {
+// 	for (int i = 0; i < times; i++) {
+// 		if (inventory->transferObject(prototype, -1, true, true)) {
+// 			continue;
+// 		} else {
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
 
 void CraftingToolImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* player) {
 	TangibleObjectImplementation::fillAttributeList(alm, player);

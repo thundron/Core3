@@ -1,18 +1,22 @@
 SkillTrainer = ScreenPlay:new {}
 
 function SkillTrainer:getTrainerType(pPlayer, pNpc, pConvTemplate)
-	local pGhost = CreatureObject(pPlayer):getPlayerObject()
-	local isJediTrainer = false
+	-- local pGhost = CreatureObject(pPlayer):getPlayerObject()
+	-- local isJediTrainer = false
 
-	if (pGhost ~= nil and PlayerObject(pGhost):isJediTrainer(pNpc)) then
-		return "trainer_jedi"
-	end
+	-- if (pGhost ~= nil and PlayerObject(pGhost):isJediTrainer(pNpc)) then
+	-- 	return "trainer_jedi"
+	-- end
 
-	local convoTemplate = LuaConversationTemplate(pConvTemplate)
-	local pScreen = convoTemplate:getScreen("trainerType")
-	local screen = LuaConversationScreen(pScreen)
+	local isJediTrainer = true
 
-	return screen:getOptionLink(0)
+	return "trainer_jedi"
+
+	-- local convoTemplate = LuaConversationTemplate(pConvTemplate)
+	-- local pScreen = convoTemplate:getScreen("trainerType")
+	-- local screen = LuaConversationScreen(pScreen)
+
+	-- return screen:getOptionLink(0)
 end
 
 function SkillTrainer:getTeachableSkills(pPlayer, trainerType, qualifiedOnly)

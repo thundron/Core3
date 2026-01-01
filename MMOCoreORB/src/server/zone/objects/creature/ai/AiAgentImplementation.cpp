@@ -236,7 +236,7 @@ void AiAgentImplementation::loadTemplateData(CreatureTemplate* templateData) {
 		int templSpecies = getSpecies();
 
 		if (!npcTemplate->getRandomNameTag()) {
-			setCustomObjectName(nm->makeCreatureName(npcTemplate->getRandomNameType(), templSpecies), false);
+			setCustomObjectName(nm->makeCreatureName(npcTemplate->getRandomNameType(), templSpecies) + " (" + level + ")", false);
 		} else {
 			String newName = nm->makeCreatureName(npcTemplate->getRandomNameType(), templSpecies);
 			newName += " (";
@@ -247,10 +247,10 @@ void AiAgentImplementation::loadTemplateData(CreatureTemplate* templateData) {
 				newName += StringIdManager::instance()->getStringId(objectName.getFullPath().hashCode()).toString();
 
 			newName += ")";
-			setCustomObjectName(newName, false);
+			setCustomObjectName(newName + " (" + level + ")", false);
 		}
 	} else {
-		setCustomObjectName(templateData->getCustomName(), false);
+		setCustomObjectName(templateData->getCustomName() + " (" + level + ")", false);
 	}
 
 	setHeight(templateData->getScale(), false);

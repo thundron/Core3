@@ -3052,7 +3052,7 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 			{
 				"Components",
 				{
-					"Personal Shield Generator", "object/tangible/component/armor/shield_generator_personal.iff",
+					"Personal Shield Generator", "object/tangible/loot/quest/shield_generator_personal_imperial_test_schematic.iff",
 				},
 				--	"Bone Armor",
 				--	{
@@ -3680,7 +3680,7 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 			--},
 			"Veteran Rewards (COMPLETE)",
 			{
-				"@craft_weapon_ingredients_d:shield_generator_personal_imperial_test_schematic","object/tangible/component/armor/shield_generator_personal_imperial_test.iff",
+				"@craft_weapon_ingredients_d:shield_generator_personal_imperial_test_schematic","object/tangible/loot/quest/shield_generator_personal_imperial_test_schematic.iff",
 				--90 Day Rewards
 				"@veteran_new:poweredharvester","object/tangible/veteran_reward/harvester.iff",
 				"@veteran_new:dataterminal1","object/tangible/veteran_reward/data_terminal_s1.iff",
